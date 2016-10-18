@@ -30,6 +30,22 @@ class delayController{
     }
   }
 
+  function filterDelay(){
+    if($_POST['id'] == "week"){
+      add_action( 'init', array( $this, 'weekFilter') );
+    }else{
+      add_action( 'init', array( $this, 'dayFilter') );
+    }
+  }
+
+  function weekFilter(){
+    $week = $this->initializeManager()->weekFilter();
+    var_dump($week);exit;
+    return $week;
+  }
+
+
+
 
 
 }

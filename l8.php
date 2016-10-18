@@ -14,6 +14,7 @@ if ( ! class_exists( 'l8' ) ) {
     function __construct(){
       register_activation_hook( __FILE__, array('l8','activatePlugin') );
       register_deactivation_hook( __FILE__, array('l8','deactivatePlugin') );
+      add_action('init', array($this,'add_js_scripts'));
       add_action('admin_menu', array($this, 'adminMenu'));
       add_action( 'init', array($this, 'rewrite_rules'));
       add_action("template_redirect", array($this,'newTemplate'));
@@ -135,6 +136,7 @@ if ( ! class_exists( 'l8' ) ) {
         time mediumint(3) NOT NULL,
         cause tinytext NOT NULL,
         user mediumint(9) NOT NULL,
+        today timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
         PRIMARY KEY  (id)
       );";
 
@@ -174,8 +176,51 @@ if ( ! class_exists( 'l8' ) ) {
     }
 
     function adminPage(){
-      echo "<h1>Hello World!</h1>";
+      echo "<h1>Liste des retards employés </h1>";
+      echo "<form id='filter'><select name='filter'>";
+      echo "<option value='today'>Today</option>";
+      echo "<option value='week'>This Week</option>";
+      echo "</select></form>";
+      $delays = self::selectDelays();
+
+      echo '<table border=1>';
+      echo '<tr><td>Name</td>';
+      echo '<td>Delay (min)</td>';
+      echo '<td>Cause</td>';
+      echo '<td>Date and Time</td></tr>';
+
+      foreach($delays as $delay){
+        echo '<tr><td>'.$delay->user_nicename.'</td>';
+        echo '<td>'.$delay->time.'</td>';
+        echo '<td>'.$delay->cause.'</td>';
+        echo '<td>'.$delay->today.'</td></tr>';
+      }
+      echo '</table>';
+
     }
+
+    function selectDelays(){
+      global $wpdb;
+
+      $d = date('Y-m-d');
+
+      $delays = $wpdb->get_results("SELECT user_nicename, time, cause, today
+                                    FROM wp_delay
+                                    LEFT JOIN wp_users
+                                    ON wp_users.ID = wp_delay.user
+                                    WHERE TRUE
+                                    AND today like '$d%'");
+
+      return $delays;
+    }
+
+    function add_js_scripts(){
+      wp_enqueue_script("jquery");
+      wp_enqueue_script( 'script', WP_PLUGIN_URL .'/l8/js/script.js', array('jquery'), '1.0', true );
+    }
+
+
+
   }
 
   $l8 = new l8();
