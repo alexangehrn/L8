@@ -126,14 +126,13 @@ if ( ! class_exists( 'l8' ) ) {
     }
 
     function createDelaydb() {
-
       global $wpdb;
 
       $table_name = $wpdb->prefix . "delay";
 
       $sql = "CREATE TABLE $table_name (
         id mediumint(9) NOT NULL AUTO_INCREMENT,
-        time mediumint(3) DEFAULT '0000-00-00 00:00:00' NOT NULL,
+        time mediumint(3) NOT NULL,
         cause tinytext NOT NULL,
         user mediumint(9) NOT NULL,
         PRIMARY KEY  (id)

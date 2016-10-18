@@ -21,12 +21,12 @@ class connectionController{
   function validateLogs() {
     $logon = $this->initializeManager()->checkLogs( $this->creds );
     if($logon){
-
-        header( 'location:home-l8' );
-
+      wp_redirect('../home-l8');
+      exit;
     }
     else{
-      header( 'location:connection.php?log=nok' );
+      wp_redirect('../connection-l8');
+      exit;
     }
   }
 

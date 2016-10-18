@@ -1,20 +1,13 @@
 <?php
 class delayController{
 
-  public $user;
-  public $time;
-  public $cause;
-
   public function initializeManager(){
     return new delayManager();
   }
 
   function declareDelay(){
-    
     if( isset ( $_POST["time"] ) && isset ( $_POST["cause"] ) ){
-      $this->$user = wp_get_current_user();
-      $this->$time = $_POST["time"];
-      $this->$cause = $_POST["cause"];
+
       add_action( 'init', array( $this, 'addDelay') );
 
     }
@@ -22,8 +15,19 @@ class delayController{
   }
 
   function addDelay(){
-    $logon = $this->initializeManager()->declareDelay( $user, $time, $cause );
-    var_dump($logon);
+    $user = $_POST["user"];
+    $time = $_POST["time"];
+    $cause = $_POST["cause"];
+    $declare = $this->initializeManager()->declareDelay( $user, $time, $cause );
+    if($declare){
+      wp_redirect('home-l8');
+      exit;
+
+    }else{
+      wp_redirect('home-l8');
+      exit;
+
+    }
   }
 
 
