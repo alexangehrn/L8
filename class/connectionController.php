@@ -21,12 +21,9 @@ class connectionController{
   function validateLogs() {
     $logon = $this->initializeManager()->checkLogs( $this->creds );
     if($logon){
-      if(! is_admin()){
 
-        header( 'location:home.php' );
-      }else{
-        header( 'location:delay.php' );
-      }
+        header( 'location:home-l8' );
+
     }
     else{
       header( 'location:connection.php?log=nok' );
