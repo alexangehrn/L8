@@ -4,8 +4,6 @@ Template Name: Delay
 */
 
   get_header();
-  $current_user_id = get_current_user_id();
-  $current_user_id = get_current_user_id();
 
 ?>
 

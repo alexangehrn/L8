@@ -11,14 +11,12 @@ if ( ! class_exists( 'l8' ) ) {
 
   class l8{
 
-    function __construct(){
+    public function __construct(){
       register_activation_hook( __FILE__, array('l8','activatePlugin') );
       register_deactivation_hook( __FILE__, array('l8','deactivatePlugin') );
-      add_action('init', array($this,'add_js_scripts'));
-      add_action('init', array($this,'add_css_style'));
+      add_action('init', array($this,'initiationParam'));
       add_action('admin_menu', array($this, 'adminMenu'));
-      add_action( 'init', array($this, 'rewrite_rules'));
-      add_action("template_redirect", array($this,'newTemplate'));
+      add_action('template_redirect', array($this,'newTemplate'));
 
 
       require_once 'autoloader.php';
@@ -28,19 +26,25 @@ if ( ! class_exists( 'l8' ) ) {
 
     }
 
-    function activatePlugin(){
+    public function initiationParam(){
+      self::add_js_scripts();
+      self::add_css_style();
+      self::rewrite_rules();
+    }
+
+    public function activatePlugin(){
       self::createDelaydb();
       self::createItinerarydb();
       self::newPage();
     }
 
-    function deactivatePlugin(){
+    public function deactivatePlugin(){
       self::dropDb();
       self::deletePage();
 
     }
 
-    function newTemplate(){
+    public function newTemplate(){
       global $wp;
       $pages = array(
         'connection',
@@ -57,7 +61,7 @@ if ( ! class_exists( 'l8' ) ) {
       }
     }
 
-    function redirectTemplate($url) {
+    public function redirectTemplate($url) {
         global $post, $wp_query;
         if (have_posts()) {
             include($url);
@@ -67,7 +71,7 @@ if ( ! class_exists( 'l8' ) ) {
         }
     }
 
-    function rewrite_rules() {
+    public function rewrite_rules() {
       global $wp_rewrite;
 
       add_rewrite_rule('l8/$', WP_PLUGIN_URL . '/l8/l8.php', 'top');
@@ -75,7 +79,7 @@ if ( ! class_exists( 'l8' ) ) {
     }
 
 
-    function newPage(){
+    public function newPage(){
 
       $pages = array(
         'connection-l8',
@@ -105,7 +109,7 @@ if ( ! class_exists( 'l8' ) ) {
     }
 
 
-    function my_error_notice() {
+    public function my_error_notice() {
       ?>
       <div class="error notice">
         <p><?php _e( 'You have already a page named connexion-l8, home-l8 or delay-l8 ! <br/> Please rename one of these pages and try again! ', 'my_plugin_textdomain' ); ?></p>
@@ -113,7 +117,7 @@ if ( ! class_exists( 'l8' ) ) {
       <?php
     }
 
-    function deletePage(){
+    public function deletePage(){
       $pages = array(
         'connection-l8',
         'home-l8',
@@ -127,7 +131,7 @@ if ( ! class_exists( 'l8' ) ) {
       }
     }
 
-    function createDelaydb() {
+    public function createDelaydb() {
       global $wpdb;
 
       $table_name = $wpdb->prefix . "delay";
@@ -148,7 +152,7 @@ if ( ! class_exists( 'l8' ) ) {
       dbDelta( $sql );
     }
 
-    function createItinerarydb() {
+    public function createItinerarydb() {
       global $wpdb;
 
       $table_name = $wpdb->prefix . "itinerary";
@@ -165,7 +169,7 @@ if ( ! class_exists( 'l8' ) ) {
 
     }
 
-    function dropDb() {
+    public function dropDb() {
       global $wpdb;
 
       $table_name = $wpdb->prefix . "itinerary";
@@ -175,11 +179,11 @@ if ( ! class_exists( 'l8' ) ) {
       $wpdb->query($sql);
     }
 
-    function adminMenu(){
+    public function adminMenu(){
       add_menu_page( 'Delays Page', 'Delays', 'administrator', 'delays', array($this,'adminPage') );
     }
 
-    function adminPage(){
+    public function adminPage(){
       echo "<h1>Liste des retards employés </h1>";
       echo "<form id='filter'><select name='filter'>";
       echo "<option value='today'>Today</option>";
@@ -207,13 +211,22 @@ if ( ! class_exists( 'l8' ) ) {
         echo '<td>'.$delay->line.'</td>';
         echo '<td>'.$delay->today.'</td></tr>';
       }
+      
       echo '</table>';
       echo '</div>';
 
       self::apiSNCF();
+      self::exportExcel();
+
     }
 
-    function apiSNCF(){
+    public function exportExcel(){
+      echo "<a href='l8.php?controller=exportController&action=exportExcelDay'>Exporter le rapport d'aujourd'hui en Excel</a><br/>";
+      echo "<a href='l8.php?controller=exportController&action=exportExcelWeek'>Exporter le rapport de cette semaine en Excel</a><br/>";
+      echo "<a href='l8.php?controller=exportController&action=exportExcelMonth'>Exporter le rapport de ce mois en Excel</a><br/>";
+    }
+
+    public function apiSNCF(){
       echo '<div id="traffic">';
       echo 'Metros : <br/>';
       echo '<button class="metros" id="1">1</button>';
@@ -239,10 +252,10 @@ if ( ! class_exists( 'l8' ) ) {
       echo '<button class="rers" id="E">E</button>';
       echo '</div>';
       echo '<div id="result">';
-      echo '</div>';
+      echo '</div><br/>';
 
     }
-    function selectDelays(){
+    public function selectDelays(){
       global $wpdb;
 
       $d = date('Y-m-d');
@@ -257,11 +270,11 @@ if ( ! class_exists( 'l8' ) ) {
       return $delays;
     }
 
-    function add_js_scripts(){
+    public function add_js_scripts(){
       wp_enqueue_script("jquery");
       wp_enqueue_script( 'script', WP_PLUGIN_URL .'/l8/js/script.js', array('jquery'), '1.0', true );
     }
-    function add_css_style(){
+    public function add_css_style(){
       wp_enqueue_style('style.css',WP_PLUGIN_URL .'/l8/css/style.css');
     }
 

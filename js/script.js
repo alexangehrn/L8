@@ -21,11 +21,11 @@
 		jQuery.post('../l8.php?controller=delayController&action=filterDelay', data, function(response) {
 
       data1 = JSON.parse(response);
-      $('#content_delays').html('<table border=1><tr><td>Name</td><td>Delay (min)</td><td>Cause</td><td>Date and Time</td></tr></table>');
+      $('#content_delays').html('<table border=1><tr><td>Name</td><td>Delay (min)</td><td>Cause</td><td>Detail</td><td>Type</td><td>Line</td><td>Date and Time</td></tr></table>');
 
       for (var i = 0; i < data1.length; i++) {
-        console.log(data1[i]);
-       $("#content_delays table tr:last").after('<tr><td>'+data1[i]['user_nicename']+'</td><td>'+data1[i]['time']+'</td><td>'+data1[i]['cause']+'</td><td>'+data1[i]['today']+'</td></tr>');
+        content = '<tr><td>'+data1[i]["user_nicename"]+'</td><td>'+data1[i]["time"]+'</td><td>'+data1[i]["cause"]+'</td><td>'+data1[i]["detail"]+'</td><td>'+data1[i]["type"]+'</td><td>'+data1[i]["line"]+'</td><td>'+data1[i]["today"]+'</td></tr>'
+       $("#content_delays table tr:last").after(content);
       }
 
 		});

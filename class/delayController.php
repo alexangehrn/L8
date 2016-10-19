@@ -5,7 +5,7 @@ class delayController{
     return new delayManager();
   }
 
-  function declareDelay(){
+  public function declareDelay(){
     if( isset ( $_POST["time"] ) && isset ( $_POST["cause"] ) ){
 
       add_action( 'init', array( $this, 'addDelay') );
@@ -14,7 +14,7 @@ class delayController{
     return false;
   }
 
-  function addDelay(){
+  public function addDelay(){
     global $current_user;
     get_currentuserinfo();
 
@@ -33,7 +33,7 @@ class delayController{
 
     }
 
-    if($cause = 'RATP'){
+    if($cause == 'RATP'){
       $validation= file_get_contents('http://api-ratp.pierre-grimaud.fr/v2/traffic/'.$type.'/'.$line);
       $message = json_decode($validation);
       $valid = $message->response->message;
@@ -63,7 +63,7 @@ class delayController{
       $message1 = "Dear Admin, \n";
       $message1 .= $current_user->user_login." is going to be late today. His delay is of ".$time."min for the following cause: ".$cause." \n";
       $message1 .= "You can find all the reports <a href='".$siteurl."wp-admin/admin.php?page=delays'>here</a> \n";
-      if($cause = 'RATP'){
+      if($cause == 'RATP'){
         $message1 .= "Validation via RATP : ".$valid."\n";
       }
       $message = "<html>
@@ -73,12 +73,14 @@ class delayController{
                   <body>
                   Dear Admin, <br/>";
       $message .= $current_user->user_login." is going to be late today. His delay is of ".$time."min for the following cause: ".$cause." <br/>";
-      $message .= "You can find all the reports <a href='".$siteurl."/wp-admin/admin.php?page=delays'>here</a>";
-      if($cause = 'RATP'){
-        $message1 .= "Validation via RATP : ".$valid."<br/>";
+      $message .= "You can find all the reports <a href='".$siteurl."/wp-admin/admin.php?page=delays'>here</a><br/>";
+
+      if($cause == 'RATP'){
+        $message .= "Validation via RATP : ".$valid."<br/>";
       }
+
       $message .= "</body></html>";
-      
+
       $email->contenu("Delay of " . $current_user->user_login,$message1, $message);
 
       $email->envoyer();
@@ -94,7 +96,7 @@ class delayController{
     }
   }
 
-  function filterDelay(){
+  public function filterDelay(){
     if($_POST['id'] == "week"){
       add_action( 'init', array( $this, 'weekFilter') );
     }if($_POST['id'] == "month"){
@@ -104,19 +106,19 @@ class delayController{
     }
   }
 
-  function weekFilter(){
+  public function weekFilter(){
     $weeks = $this->initializeManager()->weekFilter();
     echo json_encode($weeks);
     exit;
   }
 
-  function dayFilter(){
+  public function dayFilter(){
     $days = $this->initializeManager()->dayFilter();
     echo json_encode($days);
     exit;
   }
 
-  function monthFilter(){
+  public function monthFilter(){
     $month = $this->initializeManager()->monthFilter();
     echo json_encode($month);
     exit;
