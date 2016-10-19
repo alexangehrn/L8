@@ -15,6 +15,7 @@ if ( ! class_exists( 'l8' ) ) {
       register_activation_hook( __FILE__, array('l8','activatePlugin') );
       register_deactivation_hook( __FILE__, array('l8','deactivatePlugin') );
       add_action('init', array($this,'add_js_scripts'));
+      add_action('init', array($this,'add_css_style'));
       add_action('admin_menu', array($this, 'adminMenu'));
       add_action( 'init', array($this, 'rewrite_rules'));
       add_action("template_redirect", array($this,'newTemplate'));
@@ -46,11 +47,11 @@ if ( ! class_exists( 'l8' ) ) {
         'home',
         'delay'
       );
-      $plugindir = dirname( __FILE__ );
+
       foreach ($pages as $page){
         if ($wp->query_vars["pagename"] == $page.'-l8') {
             $templatefilename = $page.'.php';
-                $return_template = $plugindir . '/templates/' . $templatefilename;
+                $return_template = WP_PLUGIN_DIR . '/l8/templates/' . $templatefilename;
             self::redirectTemplate($return_template);
         }
       }
@@ -135,6 +136,9 @@ if ( ! class_exists( 'l8' ) ) {
         id mediumint(9) NOT NULL AUTO_INCREMENT,
         time mediumint(3) NOT NULL,
         cause tinytext NOT NULL,
+        detail tinytext NOT NULL,
+        type tinytext NOT NULL,
+        line tinytext NOT NULL,
         user mediumint(9) NOT NULL,
         today timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
         PRIMARY KEY  (id)
@@ -180,31 +184,70 @@ if ( ! class_exists( 'l8' ) ) {
       echo "<form id='filter'><select name='filter'>";
       echo "<option value='today'>Today</option>";
       echo "<option value='week'>This Week</option>";
+      echo "<option value='month'>This Month</option>";
       echo "</select></form>";
       $delays = self::selectDelays();
 
+      echo '<div id="content_delays">';
       echo '<table border=1>';
       echo '<tr><td>Name</td>';
       echo '<td>Delay (min)</td>';
       echo '<td>Cause</td>';
+      echo '<td>Detail</td>';
+      echo '<td>Type</td>';
+      echo '<td>Line</td>';
       echo '<td>Date and Time</td></tr>';
 
       foreach($delays as $delay){
         echo '<tr><td>'.$delay->user_nicename.'</td>';
         echo '<td>'.$delay->time.'</td>';
         echo '<td>'.$delay->cause.'</td>';
+        echo '<td>'.$delay->detail.'</td>';
+        echo '<td>'.$delay->type.'</td>';
+        echo '<td>'.$delay->line.'</td>';
         echo '<td>'.$delay->today.'</td></tr>';
       }
       echo '</table>';
+      echo '</div>';
 
+      self::apiSNCF();
     }
 
+    function apiSNCF(){
+      echo '<div id="traffic">';
+      echo 'Metros : <br/>';
+      echo '<button class="metros" id="1">1</button>';
+      echo '<button class="metros" id="2">2</button>';
+      echo '<button class="metros" id="3">3</button>';
+      echo '<button class="metros" id="4">4</button>';
+      echo '<button class="metros" id="5">5</button>';
+      echo '<button class="metros" id="6">6</button>';
+      echo '<button class="metros" id="7">7</button>';
+      echo '<button class="metros" id="8">8</button>';
+      echo '<button class="metros" id="9">9</button>';
+      echo '<button class="metros" id="10">10</button>';
+      echo '<button class="metros" id="11">11</button>';
+      echo '<button class="metros" id="12">12</button>';
+      echo '<button class="metros" id="13">13</button>';
+      echo '<button class="metros" id="14">14</button><br/>';
+
+      echo 'Rers : <br/>';
+      echo '<button class="rers" id="A">A</button>';
+      echo '<button class="rers" id="B">B</button>';
+      echo '<button class="rers" id="C">C</button>';
+      echo '<button class="rers" id="D">D</button>';
+      echo '<button class="rers" id="E">E</button>';
+      echo '</div>';
+      echo '<div id="result">';
+      echo '</div>';
+
+    }
     function selectDelays(){
       global $wpdb;
 
       $d = date('Y-m-d');
 
-      $delays = $wpdb->get_results("SELECT user_nicename, time, cause, today
+      $delays = $wpdb->get_results("SELECT user_nicename, time, cause, today, detail, type, line
                                     FROM wp_delay
                                     LEFT JOIN wp_users
                                     ON wp_users.ID = wp_delay.user
@@ -218,8 +261,9 @@ if ( ! class_exists( 'l8' ) ) {
       wp_enqueue_script("jquery");
       wp_enqueue_script( 'script', WP_PLUGIN_URL .'/l8/js/script.js', array('jquery'), '1.0', true );
     }
-
-
+    function add_css_style(){
+      wp_enqueue_style('style.css',WP_PLUGIN_URL .'/l8/css/style.css');
+    }
 
   }
 
