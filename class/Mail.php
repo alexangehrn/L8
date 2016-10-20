@@ -44,7 +44,12 @@ class Mail
         $this->_message = '';
         $this->_frontiere = md5(uniqid(mt_rand()));
         $this->_headers = '';
-    }
+        add_action('init', array($this,'test'));
+  }
+
+  public function test(){
+    var_dump('tete');exit;
+  }
 
     public function ajouter_destinataire($mail)
     {

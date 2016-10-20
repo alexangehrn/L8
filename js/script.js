@@ -18,7 +18,8 @@
 			'id': filter
 		};
 
-		jQuery.post('../l8.php?controller=delayController&action=filterDelay', data, function(response) {
+		jQuery.post(ajaxurl, data, function(response) {
+      console.log(response)
 
       data1 = JSON.parse(response);
       $('#content_delays').html('<table border=1><tr><td>Name</td><td>Delay (min)</td><td>Cause</td><td>Detail</td><td>Type</td><td>Line</td><td>Date and Time</td></tr></table>');
