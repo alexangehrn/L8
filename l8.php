@@ -7,7 +7,6 @@ Author:      Alexandra Angehrn
 Domain Path: /languages
 */
 
-
 if ( ! class_exists( 'l8' ) ){
 
   class l8{
@@ -243,6 +242,8 @@ if ( ! class_exists( 'l8' ) ){
 
     public function add_css_style(){
       wp_enqueue_style( 'style.css', WP_PLUGIN_URL .'/l8/css/style.css');
+      wp_register_style( 'bootstrap-css', WP_PLUGIN_URL . '/l8/css/bootstrap/css/bootstrap.min.css', array(), '3.0.1', 'all' );
+      wp_enqueue_style( 'bootstrap-css' );
     }
 
     public function addDelay(){
