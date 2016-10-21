@@ -102,6 +102,7 @@ if($_GET["email"]){
 <form action='<?php echo admin_url('admin-post.php') ?>' method='post'>
   Email : <input type='text' name='dest'><br/>
   <input type='hidden' name='action' value='addAdress'>
+  <?php wp_nonce_field( 'addEmail', 'nonce_email' ); ?>
   <input type='submit' value='<?php echo __('Add', 'l8') ?>'>
 </form>
 

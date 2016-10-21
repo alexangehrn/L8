@@ -45,7 +45,7 @@ if( ! is_user_logged_in()){
      <?php echo __('Line', 'l8') ?> :<br/>
     <input type="text" name="line"><br/>
   </div>
-
+  <?php wp_nonce_field( 'addDelay', 'nonce_delay' ); ?>
   <input type="submit">
 </form>
 
