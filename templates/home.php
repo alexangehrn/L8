@@ -3,7 +3,7 @@
 Template Name: Home
 */
 
-if( ! is_user_logged_in()){
+if(!is_user_logged_in()){
   wp_redirect('connection-l8');
   exit;
 }

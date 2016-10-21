@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: l8\n"
-"POT-Creation-Date: 2016-10-20 16:15+0200\n"
-"PO-Revision-Date: 2016-10-20 16:25+0200\n"
+"POT-Creation-Date: 2016-10-21 11:40+0200\n"
+"PO-Revision-Date: 2016-10-21 11:42+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -23,190 +23,222 @@ msgstr ""
 "Vous avez déjà une page nommée connection-l8, home-l8 ou delay-l8 ! <br/> "
 "Renommez une de ces pages et réessayez s ‘il vous plaît! "
 
-#: l8.php:337 l8.php:345
+#: l8.php:257 l8.php:550
+msgid "Sorry, your nonce did not verify."
+msgstr "Désolé, Votre nonce n’est pas correct."
+
+#: l8.php:348 l8.php:356
 msgid "Dear Admin,"
 msgstr "Cher Admin,"
 
-#: l8.php:338 l8.php:346
+#: l8.php:349 l8.php:357
 msgid " is going to be late today. His delay is of "
-msgstr " va être en retard aujourd’hui. Le retars est de "
+msgstr " va être en retard aujourd’hui. Le retard est de "
 
-#: l8.php:338 l8.php:346
+#: l8.php:349 l8.php:357
 msgid "min for the following cause: "
 msgstr "min pour les causes suivantes: "
 
-#: l8.php:339 l8.php:347
+#: l8.php:350 l8.php:358
 msgid "You can find all the reports"
 msgstr "Vous pouvez trouver tous les rapports"
 
-#: l8.php:339 l8.php:347
+#: l8.php:350 l8.php:358
 msgid "here"
 msgstr "ici"
 
-#: l8.php:341 l8.php:349
+#: l8.php:352 l8.php:360
 msgid "Validation via RATP : "
 msgstr "Validation via RATP : "
 
-#: l8.php:344 templates/admin.php:15 templates/delay.php:31
+#: l8.php:355 templates/admin.php:19 templates/delay.php:42
 msgid "Delay"
 msgstr "Retard"
 
-#: l8.php:353
+#: l8.php:364
 msgid "Delay of "
 msgstr "Retard de "
 
-#: l8.php:441
+#: l8.php:455
 msgid "You are not able to use this page"
 msgstr "Vous n’avez pas accès à cette page"
 
 #: templates/admin.php:1
+msgid "Delays"
+msgstr "Retards"
+
+#: templates/admin.php:4
 msgid "List of delays"
 msgstr "Liste des retards"
 
-#: templates/admin.php:5
+#: templates/admin.php:8
 msgid "Today"
 msgstr "Aujourd’hui"
 
-#: templates/admin.php:6
+#: templates/admin.php:9
 msgid "This Week"
 msgstr "Cette Semaine"
 
-#: templates/admin.php:7
+#: templates/admin.php:10
 msgid "This Month"
 msgstr "Ce Mois"
 
-#: templates/admin.php:14
+#: templates/admin.php:18
 msgid "Name"
 msgstr "Nom"
 
-#: templates/admin.php:16
+#: templates/admin.php:20
 msgid "Cause"
 msgstr "Cause"
 
-#: templates/admin.php:17
+#: templates/admin.php:21 templates/delay.php:51
 msgid "Detail"
 msgstr "Détail"
 
-#: templates/admin.php:18
+#: templates/admin.php:22
 msgid "Type"
 msgstr "Type"
 
-#: templates/admin.php:19 templates/delay.php:45
+#: templates/admin.php:23 templates/delay.php:61
 msgid "Line"
 msgstr "Ligne"
 
-#: templates/admin.php:20
+#: templates/admin.php:24
 msgid "Date and time"
 msgstr "Date et Heure"
 
-#: templates/admin.php:42
+#: templates/admin.php:45
+msgid "Traffic"
+msgstr "Trafique"
+
+#: templates/admin.php:49
 msgid "Metros"
 msgstr "Metros"
 
-#: templates/admin.php:58
+#: templates/admin.php:68
 msgid "Rers"
 msgstr "RERs"
 
-#: templates/admin.php:71
+#: templates/admin.php:84
 msgid "Export today's reports in CSV"
 msgstr "Exporter le rapport d’aujourd’hui en CSV"
 
-#: templates/admin.php:72
+#: templates/admin.php:85
 msgid "Export this week's reports in CSV"
 msgstr "Exporter le rapport de cette semaine en CSV"
 
-#: templates/admin.php:73
+#: templates/admin.php:86
 msgid "Export this month's reports in CSV"
 msgstr "Exporter le rapport de ce mois en CSV"
 
-#: templates/admin.php:75
+#: templates/admin.php:88
 msgid "Export"
 msgstr "Exporter"
 
-#: templates/admin.php:80
+#: templates/admin.php:94
 msgid "Configure email sent"
 msgstr "Paramètres d’envoi de mail"
 
-#: templates/admin.php:85 templates/admin.php:92
+#: templates/admin.php:99 templates/admin.php:106
 msgid "Your adress has been added"
 msgstr "Votre adresse a été ajoutée"
 
-#: templates/admin.php:87 templates/admin.php:94
+#: templates/admin.php:101 templates/admin.php:108
 msgid "Your adress has not been added"
 msgstr "Votre adresse n’a pas été ajoutée"
 
-#: templates/admin.php:98
+#: templates/admin.php:112
 msgid "Your mail is invalid"
 msgstr "Votre mail est invalide"
 
-#: templates/admin.php:105
+#: templates/admin.php:123
 msgid "Add"
 msgstr "Ajouter"
 
-#: templates/admin.php:119
+#: templates/admin.php:137
 msgid "Delete"
 msgstr "Supprimer"
 
-#: templates/connection.php:6
+#: templates/connection.php:8
 msgid "Sorry, a problem appeared"
 msgstr "Désolé, un problème a eu lieu"
 
-#: templates/connection.php:9
-msgid "Your login value is inccorect"
+#: templates/connection.php:13
+msgid "Your login value is incorrect"
 msgstr "Votre login est incorrect"
 
-#: templates/connection.php:12
-msgid "Your pass value is inccorect"
+#: templates/connection.php:18
+msgid "Your pass value is incorrect"
 msgstr "Votre mot de passe est incorrect"
 
-#: templates/connection.php:18
-msgid "Connection"
-msgstr "Connexion"
+#: templates/connection.php:26
+msgid "Login"
+msgstr "Login"
 
-#: templates/connection.php:19
+#: templates/connection.php:30
 msgid "Password"
 msgstr "Mot de passe"
 
-#: templates/delay.php:14
-msgid "Your delay value is inccorect"
-msgstr "La valeur du champs retard est incorrect"
+#: templates/connection.php:33
+msgid "Connect"
+msgstr "Connexion"
 
-#: templates/delay.php:17
+#: templates/delay.php:15
+msgid "Your delay value is incorrect"
+msgstr "Votre valeur de retard est incorrecte"
+
+#: templates/delay.php:20
 msgid "Your cause value is inccorect"
 msgstr "La valeur du champs cause est incorrect"
 
-#: templates/delay.php:20
+#: templates/delay.php:25
 msgid "Your detail value is inccorect"
 msgstr "La valeur du champs detail est incorrect"
 
-#: templates/delay.php:23
+#: templates/delay.php:30
 msgid "Your type value is inccorect"
 msgstr "La valeur du champs type est incorrect"
 
-#: templates/delay.php:26
+#: templates/delay.php:35
 msgid "Your line value is inccorect"
 msgstr "La valeur du champs ligne est incorrect"
 
-#: templates/delay.php:35
+#: templates/delay.php:47
 msgid "other"
 msgstr "autre"
 
-#: templates/delay.php:35
+#: templates/delay.php:47
 msgid "Other"
 msgstr "Autre"
+
+#: templates/delay.php:67
+msgid "Submit"
+msgstr "Envoyer"
 
 #: templates/home.php:16
 msgid "Sorry, a problem appeared<br/>"
 msgstr "Désolé un problème est survenu<br/>"
 
-#: templates/home.php:18
+#: templates/home.php:20
 msgid "Your delay has been correctly registered<br/>"
 msgstr "Votre retard a bien été enregistré<br/>"
 
-#: templates/home.php:22
+#: templates/home.php:26
 msgid "Welcome<br/>"
 msgstr "Bienvenue<br/>"
 
-#: templates/home.php:26
+#: templates/home.php:31
 msgid "I'm late !"
 msgstr "Je suis en retard !"
+
+#~ msgid "Your login value is inccorect"
+#~ msgstr "Votre login est incorrect"
+
+#~ msgid "Your pass value is inccorect"
+#~ msgstr "Votre mot de passe est incorrect"
+
+#~ msgid "Connection"
+#~ msgstr "Connexion"
+
+#~ msgid "Your delay value is inccorect"
+#~ msgstr "La valeur du champs retard est incorrect"

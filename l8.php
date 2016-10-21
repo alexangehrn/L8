@@ -7,11 +7,14 @@ Author:      Alexandra Angehrn
 Domain Path: /languages
 */
 
-if ( ! class_exists( 'l8' ) ){
+if (!class_exists('l8')){
 
-  class l8{
+  class l8
+  {
 
-    public function __construct(){
+    public function __construct()
+    {
+
       register_activation_hook( __FILE__, array( 'l8', 'activatePlugin') );
       register_deactivation_hook( __FILE__, array( 'l8', 'deactivatePlugin') );
       add_action( 'init', array( $this, 'initiationParam'));
@@ -21,20 +24,29 @@ if ( ! class_exists( 'l8' ) ){
       add_action( 'admin_post_exportCSV', array( $this, 'exportCSV'));
       add_action( 'admin_post_addAdress', array( $this, 'addAdress'));
       add_action( 'admin_post_deleteAdress', array( $this, 'deleteAdress'));
+
     }
 
-    public function activatePlugin(){
+    public function activatePlugin()
+    {
+
       self::createDelaydb();
       self::createAdressdb();
       self::newPage();
+
     }
 
-    public function deactivatePlugin(){
+    public function deactivatePlugin()
+    {
+
       self::dropDb();
       self::deletePage();
+
     }
 
-    public function initiationParam(){
+    public function initiationParam()
+    {
+
       self::add_js_scripts();
       self::add_css_style();
 
@@ -49,92 +61,121 @@ if ( ! class_exists( 'l8' ) ){
 
     }
 
-    public function adminActions(){
+    public function adminActions()
+    {
+
       self::adminMenu();
+
     }
 
-    public function adminFilter(){
+    public function adminFilter()
+    {
 
       if( isset( $_POST['id'] )){
+
         if( $_POST['id'] == 'month' ){
           self::monthFilter();
         }
+
         if( $_POST['id'] == 'week' ){
           self::weekFilter();
         }
+
         else{
           self::dayFilter();
         }
-      }
 
+      }
 
     }
 
-    public function exportCSV(){
+    public function exportCSV()
+    {
+
       if( $_POST["export"] == "day" ){
         self::exportExcelDay();
       }
+
       if( $_POST["export"] == "week" ){
         self::exportExcelWeek();
       }
+
       if( $_POST["export"] == "month" ){
         self::exportExcelMonth();
       }
+
     }
 
-    public function isArray( $data ){
-      if( is_array( $data ) ){
+    public function isArray($data)
+    {
+
+      if(is_array($data)){
         return $data;
       }else{
         return false;
       }
+
     }
 
-    public function isNumeric( $data ){
-      return is_numeric( $data );
+    public function isNumeric($data)
+    {
+
+      return is_numeric($data);
+
     }
 
-    public function isInt( $data ){
-      return is_int( $data );
+    public function isInt($data)
+    {
+
+      return is_int($data);
+
     }
 
-    public function isString( $data ){
-      if( is_string( $data ) ){
+    public function isString($data)
+    {
+
+      return is_string();
+
+    }
+
+    public function isEmail($data)
+    {
+
+      return is_email();
+
+    }
+
+    public function isMetro($data)
+    {
+
+      $lines = array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14');
+
+      if (in_array($data, $lines)){
         return $data;
       }else{
         return false;
       }
+
     }
 
-    public function isEmail( $data ){
-      if( is_email( $data ) ){
+    public function isRER($data)
+    {
+
+      $lines =array('A', 'B', 'C', 'D', 'E');
+
+      if (in_array( $data, $lines)) {
         return $data;
       }else{
         return false;
       }
-    }
 
-    public function isMetro( $data ){
-      $lines = array( '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14');
-      if ( in_array( $data, $lines ) ) {
-        return $data;
-      }else{
-        return false;
-      }
-    }
-
-    public function isRER( $data ){
-      $lines =array( 'A', 'B', 'C', 'D', 'E');
-      if ( in_array( $data, $lines) ) {
-        return $data;
-      }else{
-        return false;
-      }
     }
 
     //activate Plugin actions
 
-    public function createDelaydb() {
+    public function createDelaydb()
+    {
+
       global $wpdb;
 
       $table_name = $wpdb->prefix . "delay";
@@ -153,9 +194,12 @@ if ( ! class_exists( 'l8' ) ){
 
       require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
       dbDelta( $sql );
+
     }
 
-    public function createAdressdb() {
+    public function createAdressdb()
+    {
+
       global $wpdb;
 
       $table_name = $wpdb->prefix . "mail_adress";
@@ -166,11 +210,13 @@ if ( ! class_exists( 'l8' ) ){
                 PRIMARY KEY  (id)
               );";
 
-      require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+      require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
       dbDelta( $sql );
+
     }
 
-    public function newPage(){
+    public function newPage()
+    {
 
       $pages = array(
         'connection-l8',
@@ -178,7 +224,7 @@ if ( ! class_exists( 'l8' ) ){
         'delay-l8'
       );
 
-      foreach ( $pages as $page ){
+      foreach ($pages as $page){
         if( ! is_page( $page )){
           $post = array(
             'post_content'=> '',
@@ -190,40 +236,48 @@ if ( ! class_exists( 'l8' ) ){
             'post_author'=> 1,
           );
 
-          wp_insert_post( $post, false );
+          wp_insert_post($post, false);
 
         }else{
-          add_action( 'admin_notices', array( $this, 'my_error_notice') );
+          add_action('admin_notices', array($this, 'my_error_notice'));
         }
       }
 
     }
 
-    public function my_error_notice() {
+    public function my_error_notice()
+    {
+
       ?>
       <div class="error notice">
         <p><?php echo __( 'You have already a page named connection-l8, home-l8 or delay-l8 ! <br/> Please rename one of these pages and try again! ', 'l8' ); ?></p>
       </div>
       <?php
+
     }
 
     //deactivate Plugin actions
 
-    public function deletePage(){
+    public function deletePage()
+    {
+
       $pages = array(
         'connection-l8',
         'home-l8',
         'delay-l8',
       );
 
-      foreach ( $pages as $page ){
-        $sheet = get_page_by_title( $page );
+      foreach ($pages as $page){
+        $sheet = get_page_by_title($page);
         $page_id = $sheet->ID;
         wp_delete_post( $page_id, true);
       }
+
     }
 
-    public function dropDb() {
+    public function dropDb()
+    {
+
       global $wpdb;
 
       $table_name1 = $wpdb->prefix . "delay";
@@ -231,28 +285,36 @@ if ( ! class_exists( 'l8' ) ){
 
       $sql = "DROP TABLE IF EXISTS $table_name, $table_name1";
       $wpdb->query( $sql );
+
     }
 
     //Init params
 
-    public function add_js_scripts(){
-      wp_enqueue_script( "jquery" );
-      wp_enqueue_script( 'script', WP_PLUGIN_URL .'/l8/js/script.js', array('jquery'), '1.0', true );
+    public function add_js_scripts()
+    {
+
+      wp_enqueue_script("jquery");
+      wp_enqueue_script('script', WP_PLUGIN_URL .'/l8/js/script.js', array('jquery'), '1.0', true);
+
     }
 
-    public function add_css_style(){
-      wp_enqueue_style( 'style.css', WP_PLUGIN_URL .'/l8/css/style.css');
-      wp_register_style( 'bootstrap-css', WP_PLUGIN_URL . '/l8/css/bootstrap/css/bootstrap.min.css', array(), '3.0.1', 'all' );
-      wp_enqueue_style( 'bootstrap-css' );
+    public function add_css_style()
+    {
+
+      wp_enqueue_style('style.css', WP_PLUGIN_URL .'/l8/css/style.css');
+      wp_register_style('bootstrap-css', WP_PLUGIN_URL . '/l8/css/bootstrap/css/bootstrap.min.css', array(), '3.0.1', 'all');
+      wp_enqueue_style('bootstrap-css');
+
     }
 
-    public function addDelay(){
+    public function addDelay()
+    {
 
       global $wpdb;
       global $current_user;
       get_currentuserinfo();
 
-      if ( ! isset( $_POST['nonce_delay'] ) || ! wp_verify_nonce( $_POST['nonce_delay'], 'addDelay' ) ) {
+      if (!isset( $_POST['nonce_delay']) || !wp_verify_nonce($_POST['nonce_delay'], 'addDelay')){
 
         print __('Sorry, your nonce did not verify.', 'l8');
         exit;
@@ -263,15 +325,15 @@ if ( ! class_exists( 'l8' ) ){
 
         $time = $_POST["time"];
 
-        $checkTime = self::isNumeric( $time );
+        $checkTime = self::isNumeric($time);
         if( ! $checkTime ){
           wp_redirect('delay-l8?time=inccorect');
           exit;
         }
 
         $causeS = $_POST["cause"];
-        $cause = sanitize_text_field( $causeS );
-        $checkCause = self::isString( $cause );
+        $cause = sanitize_text_field($causeS);
+        $checkCause = self::isString($cause);
         if( ! $checkCause ){
           wp_redirect('delay-l8?cause=inccorect');
           exit;
@@ -279,9 +341,9 @@ if ( ! class_exists( 'l8' ) ){
 
         if( $_POST["detail"] != "" ){
           $detailS = $_POST["detail"];
-          $detail = sanitize_text_field( $detailS );
-          $checkDetail = self::isString( $detail );
-          if( ! $checkDetail ){
+          $detail = sanitize_text_field($detailS);
+          $checkDetail = self::isString($detail);
+          if(!$checkDetail){
             wp_redirect('delay-l8?detail=inccorect');
             exit;
           }
@@ -290,21 +352,21 @@ if ( ! class_exists( 'l8' ) ){
           $line = "";
         }else{
           $type = $_POST["type"];
-          $checkType = self::isString( $type );
-          if( ! $checkType ){
+          $checkType = self::isString($type);
+          if(!$checkType){
             wp_redirect('delay-l8?type=inccorect');
             exit;
           }
 
           $line = $_POST["line"];
-          $checkLine = self::isString( $line );
+          $checkLine = self::isString($line);
           if( $type == "metros" ){
-            $checkNumLine = self::isMetro( $line );
+            $checkNumLine = self::isMetro($line);
           }
           if( $type == "rers" ){
-            $checkNumLine = self::isRER( $line );
+            $checkNumLine = self::isRER($line);
           }
-          if( ! $checkLine || ! $checkNumLine ){
+          if( !$checkLine || !$checkNumLine){
             wp_redirect('delay-l8?line=inccorect');
             exit;
           }
@@ -312,7 +374,7 @@ if ( ! class_exists( 'l8' ) ){
           $detail = "";
         }
 
-        if( $cause == 'RATP' ){
+        if($cause == 'RATP'){
           $validation= file_get_contents( 'http://api-ratp.pierre-grimaud.fr/v2/traffic/'.$type.'/'.$line );
           $message = json_decode( $validation );
           $valid = $message->response->message;
@@ -337,13 +399,13 @@ if ( ! class_exists( 'l8' ) ){
           $adresses = self::selectAdress();
           foreach ($adresses as $adress) {
             $admin_email = $adress->email;
-            $email->ajouter_destinataire( $admin_email );
+            $email->ajouter_destinataire($admin_email);
           }
           //adresses copie(s) cachÈe(s)
-          $email->ajouter_bcc( $current_user->user_email );
+          $email->ajouter_bcc($current_user->user_email);
 
           //contenu(objet/contenu plain text/contenu text html)
-          $siteurl = get_option( 'siteurl', '');
+          $siteurl = get_option('siteurl', '');
 
           $message1 = __("Dear Admin,", 'l8')." \n";
           $message1 .= $current_user->user_login.__(" is going to be late today. His delay is of ", 'l8').$time.__("min for the following cause: ", 'l8').$cause." \n";
@@ -374,17 +436,21 @@ if ( ! class_exists( 'l8' ) ){
           exit;
 
         }
+
       }
+
     }
 
-    public function checkLogs(){
-      if( isset ( $_POST["login"] ) && isset ( $_POST["password"] ) ){
+    public function checkLogs()
+    {
+
+      if(isset ($_POST["login"]) && isset ($_POST["password"])){
 
         $creds = array();
 
         $login = $_POST["login"];
-        $creds['user_login'] = sanitize_email( $login );
-        $checkLogin = self::isEmail( $creds['user_login'] );
+        $creds['user_login'] = sanitize_email($login);
+        $checkLogin = self::isEmail($creds['user_login']);
         if(!$checkLogin){
           wp_redirect('connection-l8?login=inccorect');
           exit;
@@ -400,8 +466,8 @@ if ( ! class_exists( 'l8' ) ){
 
         $creds['remember'] = true;
 
-        $user = wp_signon( $creds, false );
-        if ( is_wp_error( $user ) )
+        $user = wp_signon($creds, false);
+        if (is_wp_error($user))
         echo $user->get_error_message();
 
         if( $user ){
@@ -412,10 +478,14 @@ if ( ! class_exists( 'l8' ) ){
           wp_redirect('connection-l8?login=nok');
           exit;
         }
+
       }
+
     }
 
-    public function newTemplate(){
+    public function newTemplate()
+    {
+
       global $wp;
 
       $pages = array(
@@ -428,12 +498,15 @@ if ( ! class_exists( 'l8' ) ){
         if ($wp->query_vars["pagename"] == $page.'-l8') {
           $templatefilename = $page.'.php';
           $return_template = WP_PLUGIN_DIR . '/l8/templates/' . $templatefilename;
-          self::redirectTemplate( $return_template );
+          self::redirectTemplate($return_template);
         }
       }
+
     }
 
-    public function redirectTemplate( $url ) {
+    public function redirectTemplate($url)
+    {
+
       global $post, $wp_query;
 
       if (have_posts()) {
@@ -442,16 +515,22 @@ if ( ! class_exists( 'l8' ) ){
       } else {
         $wp_query->is_404 = true;
       }
+
     }
 
     //Admin delays
 
-    public function adminMenu(){
-      add_menu_page( 'Delays Page', 'Delays', 'administrator', 'delays', array( $this, 'adminPage') );
+    public function adminMenu()
+    {
+
+      add_menu_page( 'Delays Page', 'Delays', 'administrator', 'delays', array($this, 'adminPage'));
+
     }
 
-    public function adminPage(){
-      if( ! current_user_can( 'administrator' )){
+    public function adminPage()
+    {
+
+      if( ! current_user_can('administrator')){
         die(  __('You are not able to use this page', 'l8'));
       }
       $delays = self::selectDelays();
@@ -459,10 +538,11 @@ if ( ! class_exists( 'l8' ) ){
 
       include( WP_PLUGIN_DIR.'/l8/templates/admin.php');
 
-
     }
 
-    public function selectDelays(){
+    public function selectDelays()
+    {
+
       global $wpdb;
 
       $d = date('Y-m-d');
@@ -475,19 +555,25 @@ if ( ! class_exists( 'l8' ) ){
                                     AND today like '$d%'");
 
         return $delays;
+
       }
 
-      public function selectAdress(){
+      public function selectAdress()
+      {
+
         global $wpdb;
 
         $adresses = $wpdb->get_results("SELECT email
                                         FROM wp_mail_adress");
 
-          return $adresses;
+        return $adresses;
+
         }
 
 
-        function monthFilter(){
+        function monthFilter()
+        {
+
           global $wpdb;
 
           $d = date('Y-m-d h:m:s');
@@ -502,9 +588,11 @@ if ( ! class_exists( 'l8' ) ){
 
             echo json_encode($delays);
             exit;
+
           }
 
-          function weekFilter(){
+          function weekFilter()
+          {
 
             global $wpdb;
 
@@ -521,9 +609,11 @@ if ( ! class_exists( 'l8' ) ){
 
               echo json_encode($delays);
               exit;
+
             }
 
-            function dayFilter(){
+            function dayFilter()
+            {
 
               global $wpdb;
 
@@ -542,10 +632,12 @@ if ( ! class_exists( 'l8' ) ){
               }
 
 
-              public function addAdress(){
+              public function addAdress()
+              {
+
                 global $wpdb;
 
-                if ( ! isset( $_POST['nonce_email'] ) || ! wp_verify_nonce( $_POST['nonce_email'], 'addEmail' ) ) {
+                if ( !isset($_POST['nonce_email'] ) || ! wp_verify_nonce($_POST['nonce_email'], 'addEmail')) {
 
                   print __('Sorry, your nonce did not verify.', 'l8');
                   exit;
@@ -553,9 +645,9 @@ if ( ! class_exists( 'l8' ) ){
                 } else {
 
                   $emailS = $_POST["dest"];
-                  $email = sanitize_text_field( $emailS );
-                  $checkEmail = self::isEmail( $email );
-                  if( ! $checkEmail){
+                  $email = sanitize_text_field($emailS);
+                  $checkEmail = self::isEmail($email);
+                  if(!$checkEmail){
                     wp_redirect('admin.php?page=delays&email=nok');
                     exit;
                   }
@@ -571,14 +663,18 @@ if ( ! class_exists( 'l8' ) ){
                     wp_redirect('admin.php?page=delays&notif=nok');
                     exit;
                   }
+
                 }
+
               }
 
-              public function deleteAdress(){
+              public function deleteAdress()
+              {
+
                 global $wpdb;
 
                 $emailS = $_POST["email"];
-                $email = sanitize_text_field( $emailS );
+                $email = sanitize_text_field($emailS);
 
                 $declare = $wpdb->delete("wp_mail_adress", array(
                   "email" => $email,
@@ -594,7 +690,8 @@ if ( ! class_exists( 'l8' ) ){
 
               }
 
-              function exportExcelDay(){
+              function exportExcelDay()
+              {
 
                 header("Content-type: application/vnd.ms-excel; charset=utf-8");
 
@@ -621,10 +718,12 @@ if ( ! class_exists( 'l8' ) ){
                     echo $insertion;
                   }
                   exit;
+
                 }
 
 
-                function exportExcelWeek(){
+                function exportExcelWeek()
+                {
 
                   header("Content-type: application/vnd.ms-excel; charset=utf-8");
 
@@ -651,11 +750,14 @@ if ( ! class_exists( 'l8' ) ){
                       $insertion = $insertion."\n";
                       echo $insertion;
                     }
+
                     exit;
+
                   }
 
 
-                  function exportExcelMonth(){
+                  function exportExcelMonth()
+                  {
 
                     header("Content-type: application/vnd.ms-excel; charset=utf-8");
 
@@ -682,10 +784,10 @@ if ( ! class_exists( 'l8' ) ){
                         $insertion = $insertion."\n";
                         echo $insertion;
                       }
+
                       exit;
+
                     }
-
-
 
                   }
 
