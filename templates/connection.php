@@ -20,7 +20,7 @@ if($_GET['pass']){
 }
 get_header();
 ?>
-
+<div style="width:80%; margin:auto;">
 <form action="l8" method="post">
   <div class="input-group">
     <span class="input-group-addon" id="basic-addon1"><?php echo __('Login', 'l8') ?></span>
@@ -32,7 +32,7 @@ get_header();
   </div>
   <button type="submit" class="btn btn-primary btn-sm"> <?php echo __('Connect', 'l8') ?></button>
 </form>
-
+</div>
 <?php
 get_footer();
 ?>

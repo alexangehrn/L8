@@ -36,6 +36,7 @@ if($_GET['line']){
   echo '</div>';
 }
 ?>
+<div style="width:80%; margin:auto;">
 
 <form action="../l8" id="delay_form" method="post">
   <div class="input-group">
@@ -67,6 +68,7 @@ if($_GET['line']){
   <button type="submit" class="btn btn-primary btn-sm"> <?php echo __('Submit', 'l8') ?></button>
 </form>
 
+</div>
 <?php
 get_footer();
 ?>

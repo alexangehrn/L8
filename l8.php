@@ -134,14 +134,14 @@ if ( ! class_exists( 'l8' ) ){
     public function isString( $data )
     {
 
-      return is_string();
+      return is_string( $data );
 
     }
 
     public function isEmail( $data )
     {
 
-      return is_email();
+      return is_email( $data );
 
     }
 
@@ -450,7 +450,7 @@ if ( ! class_exists( 'l8' ) ){
 
         $login = $_POST["login"];
         $creds['user_login'] = sanitize_email( $login );
-        $checkLogin = self::isEmail( $creds['user_login'] );
+        $checkLogin = self::isEmail($creds['user_login']);
         if( ! $checkLogin ){
           wp_redirect( 'connection-l8?login=inccorect' );
           exit;
